@@ -104,7 +104,8 @@ export default function Home() {
                     </form>
                 </Form>
 
-                <h1 className="text-sm mt-auto mb-10"><span className="text-[#625050]">Don&apos;t have an account?</span> <span className="text-[#2B2B2B] font-medium">Sign Up</span></h1>
+                <h1 className="text-sm mt-auto mb-10"><span className="text-[#625050]">Don&apos;t have an account?</span>
+                    <span className="text-[#2B2B2B] font-medium"> <a href="/signup">Sign Up</a></span></h1>
             </div>
         </main>
     );
