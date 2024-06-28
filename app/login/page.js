@@ -8,14 +8,16 @@ import {Button} from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import {IoIosEyeOff, IoMdEye} from "react-icons/io";
+import {Checkbox} from "@/components/ui/checkbox";
 
 const formSchema = z.object({
     email: z.string(),
-    password: z.string()
+    password: z.string(),
 })
 
 export default function Home() {
     const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -27,10 +29,12 @@ export default function Home() {
 
     function onSubmit(values) {
         console.log(values)
+        console.log(rememberMe)
     }
 
     return (
         <main className="flex h-screen bg-[#D9D9D9] w-full">
+            <Image src={'/auth-background.svg'} alt={"bg img"} width={561} height={435} className="ml-auto"/>
             <div className="my-auto flex flex-col ml-auto h-[95%] w-1/3 mr-5 bg-white rounded-2xl items-center">
                 <Image src={'/logo-small.svg'} alt={"logo"} width={60} height={60} className="mt-20" />
 
@@ -55,6 +59,7 @@ export default function Home() {
                                 </FormItem>
                             )}
                         />
+                        <div className="mt-2.5" />
                         <FormField
                             control={form.control}
                             name="password"
@@ -78,9 +83,28 @@ export default function Home() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="mt-2">Submit</Button>
+
+                        <div className="flex flex-row items-center space-x-2 mt-4 w-full">
+                            <div className="mr-auto space-x-2 items-center h-full">
+                                <Checkbox id="rememberme" onClick={() => setRememberMe(!rememberMe)}/>
+
+                                <label
+                                    htmlFor="terms"
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#5A5858]"
+                                >
+                                    Remember me for 30 days
+                                </label>
+                            </div>
+                            <div className="ml-auto">
+                                <h1 className="text-xs text-[#A8A8A8]">Forgot password?</h1>
+                            </div>
+                        </div>
+
+                        <Button type="submit" className="mt-5 w-full rounded-full h-10">Log in</Button>
                     </form>
                 </Form>
+
+                <h1 className="text-sm mt-auto mb-10"><span className="text-[#625050]">Don&apos;t have an account?</span> <span className="text-[#2B2B2B] font-medium">Sign Up</span></h1>
             </div>
         </main>
     );
