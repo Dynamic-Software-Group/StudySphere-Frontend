@@ -3,12 +3,11 @@ import Image from "next/image";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Button} from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import {IoIosEyeOff, IoMdEye} from "react-icons/io";
-import {Checkbox} from "@/components/ui/checkbox";
 
 const formSchema = z.object({
     name: z.string(),

@@ -12,3 +12,12 @@
 body {
   font-family: 'IBM Plex Sans', sans-serif;
 }
+
+.text-xl.ml-3.font-semibold {
+    letter-spacing: 1px;
+}
+
+.new-note-button:hover {
+    background-color: #5500FF !important;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
