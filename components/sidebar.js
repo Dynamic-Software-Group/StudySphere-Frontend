@@ -27,7 +27,7 @@ export default function Sidebar() {
     }
 
     return (
-        <div className="flex flex-col items-center w-1/5 mr-auto border-r-2 border-[#999999] h-full">
+        <div className="flex flex-col items-center w-1/5 mr-auto border-r-2 border-[#999999] h-full fixed top-0 left-0">
             <div className="flex flex-row items-center justify-center w-full mt-8">
                 <Image src={'/logo-small.svg'} alt={"logo"} width={35} height={35}/>
                 <h1 className="text-xl ml-3 font-semibold">StudySphere</h1>

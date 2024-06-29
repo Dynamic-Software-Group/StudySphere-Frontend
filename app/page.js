@@ -15,7 +15,7 @@ export default function Home() {
             <Topbar />
 
             {/* Main Content */}
-            <div className="flex-grow">
+            <div className="ml-[25%] mt-16 w-full">
                 <div className="flex flex-row items-center justify-between w-full">
                     <div className="w-1/3 justify-left flex flex-row items-center h-32">
                         <Image src={'/calendar.svg'} alt={"calendar"} width={40} height={40} className="ml-10"/>
@@ -50,7 +50,14 @@ export default function Home() {
                             <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                             <h1 className="text-sm text-[#565656]">7 mins ago</h1>
                         </div>
-                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                        <h1 style={{
+                            overflowWrap: 'break-word',
+                            wordWrap: 'break-word',
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 4,
+                            WebkitBoxOrient: 'vertical'
+                        }}>Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Morbi dolor nunc, vestibulum nec dictum a,
                             molestie sed sapien. Integer sodales metus dolor,
                             ac malesuada nunc pharetra at. Nullam est enim,
@@ -73,7 +80,14 @@ export default function Home() {
                             <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                             <h1 className="text-sm text-[#565656]">7 mins ago</h1>
                         </div>
-                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                        <h1 style={{
+                            overflowWrap: 'break-word',
+                            wordWrap: 'break-word',
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 4,
+                            WebkitBoxOrient: 'vertical'
+                        }}>Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Morbi dolor nunc, vestibulum nec dictum a,
                             molestie sed sapien. Integer sodales metus dolor,
                             ac malesuada nunc pharetra at. Nullam est enim,
@@ -96,7 +110,14 @@ export default function Home() {
                             <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                             <h1 className="text-sm text-[#565656]">7 mins ago</h1>
                         </div>
-                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                        <h1 style={{
+                            overflowWrap: 'break-word',
+                            wordWrap: 'break-word',
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 4,
+                            WebkitBoxOrient: 'vertical'
+                        }}>Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Morbi dolor nunc, vestibulum nec dictum a,
                             molestie sed sapien. Integer sodales metus dolor,
                             ac malesuada nunc pharetra at. Nullam est enim,
@@ -119,7 +140,14 @@ export default function Home() {
                             <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                             <h1 className="text-sm text-[#565656]">7 mins ago</h1>
                         </div>
-                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                        <h1 style={{
+                            overflowWrap: 'break-word',
+                            wordWrap: 'break-word',
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 4,
+                            WebkitBoxOrient: 'vertical'
+                        }}>Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Morbi dolor nunc, vestibulum nec dictum a,
                             molestie sed sapien. Integer sodales metus dolor,
                             ac malesuada nunc pharetra at. Nullam est enim,

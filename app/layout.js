@@ -1,4 +1,5 @@
 import "./globals.css";
+import {Toaster} from "@/components/ui/toaster";
 export const metadata = {
   title: "StudySphere",
   description: "StudySphere is a platform for students to learn and grow.",

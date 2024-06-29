@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import CategoriesComboBox from "@/components/ui/CategoriesComboBox";
+import {GoPlusCircle} from "react-icons/go";
 
 export default function NewNotePopup() {
     return (
@@ -19,27 +21,22 @@ export default function NewNotePopup() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogTitle>Create a note</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when you're done.
+                        This is the start of something great
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Name
-                        </Label>
-                        <Input id="name" value="Pedro Duarte" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username" className="text-right">
-                            Username
-                        </Label>
-                        <Input id="username" value="@peduarte" className="col-span-3" />
+                <div>
+                    <Input id="username" placeholder="Enter title..." type="text"/>
+                    <div className="flex flex-row w-full mt-2">
+                        <CategoriesComboBox />
+                        <Button className="ml-2" type="submit" variant="ghost">
+                            <GoPlusCircle className="mr-1" /> Create new
+                        </Button>
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Save changes</Button>
+                    <Button className="invite w-full" type="submit">Create note</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

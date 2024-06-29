@@ -45,3 +45,12 @@ body {
     background-color: #4400CC !important;
     color: white !important;
 }
+
+.linkcontainer {
+    background: rgba(217, 217, 217, 0.40);
+}
+
+.copy:hover {
+    color: #1A56EB !important;
+    background-color: rgba(0, 0, 0, 0) !important;
+}
