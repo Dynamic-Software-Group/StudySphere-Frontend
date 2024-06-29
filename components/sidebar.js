@@ -5,12 +5,16 @@ import {HiOutlineDocumentChartBar} from "react-icons/hi2";
 import {HiOutlineBell, HiOutlineHeart, HiOutlineShare, HiOutlineTrash} from "react-icons/hi";
 import {VscSettingsGear} from "react-icons/vsc";
 import NewNotePopup from "@/components/ui/NewNotePopup";
+import {useEffect, useState} from "react";
 
 export default function Sidebar() {
+    const [path, setPath] = useState("");
+
+    useEffect(() => {
+        setPath(window.location.pathname);
+    }, []);
 
     function getBarColor(targetPath) {
-        const path = window.location.pathname;
-
         if (targetPath === "/") {
             return path === "/" ? "#5500FF" : "#ffffff";
         }
@@ -18,8 +22,6 @@ export default function Sidebar() {
     }
 
     function getTextWeight(targetPath) {
-        const path = window.location.pathname;
-
         if (targetPath === "/") {
             return path === "/" ? "font-semibold" : "font-medium";
         }

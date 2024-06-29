@@ -1,5 +1,5 @@
 import "./globals.css";
-import {Toaster} from "@/components/ui/toaster";
+import {Toaster} from "@/components/ui/sonner";
 export const metadata = {
   title: "StudySphere",
   description: "StudySphere is a platform for students to learn and grow.",
@@ -7,8 +7,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+      <html lang="en">
+          <body>
+            <main>{children}</main>
+            <Toaster position="bottom-left" />
+          </body>
+      </html>
   );
 }
