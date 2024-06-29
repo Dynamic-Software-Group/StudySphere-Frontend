@@ -8,6 +8,7 @@ import {Button} from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import {IoIosEyeOff, IoMdEye} from "react-icons/io";
+import {login, signup} from "@/lib/api";
 
 const formSchema = z.object({
     name: z.string(),
@@ -29,8 +30,22 @@ export default function Home() {
         }
     })
 
-    function onSubmit(values) {
-        console.log(values)
+    async function onSubmit(values) {
+        const signedUp = await signup(values.email, values.password, values.name);
+
+        if (signedUp === false) {
+            // 409; user already exists
+        } else {
+            const token = await login(values.email, values.password);
+            console.log(token)
+
+            if (token == null) {
+                console.error("Login failed")
+            } else {
+                console.log(token)
+                document.cookie = `token=${token}; path=/`;
+            }
+        }
     }
 
     return (

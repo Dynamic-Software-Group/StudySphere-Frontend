@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
@@ -9,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import {IoIosEyeOff, IoMdEye} from "react-icons/io";
 import {Checkbox} from "@/components/ui/checkbox";
+import {login} from "@/lib/api";
 
 const formSchema = z.object({
     email: z.string(),
@@ -27,9 +29,14 @@ export default function Home() {
         }
     })
 
-    function onSubmit(values) {
-        console.log(values)
-        console.log(rememberMe)
+    async function onSubmit(values) {
+        const token = await login(values.email, values.password);
+
+        if (token == null) {
+            console.error("Login failed")
+        } else {
+            document.cookie = `token=${token}; path=/`;
+        }
     }
 
     return (
