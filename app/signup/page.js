@@ -46,7 +46,6 @@ export default function Home() {
             const token = await login(values.email, values.password);
 
             if (token == null) {
-                console.error("Login failed")
                 toast.error("An error occurred while logging in. Please try again.")
             } else {
                 document.cookie = `token=${token}; path=/`;

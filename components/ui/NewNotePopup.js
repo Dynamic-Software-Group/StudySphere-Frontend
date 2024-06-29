@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import CategoriesComboBox from "@/components/ui/CategoriesComboBox";
 import {GoPlusCircle} from "react-icons/go";
+import CreateCategoryInNewNotePopup from "@/components/ui/CreateCategoryInNewNotePopup";
 
 export default function NewNotePopup() {
     return (
@@ -30,9 +31,7 @@ export default function NewNotePopup() {
                     <Input id="username" placeholder="Enter title..." type="text"/>
                     <div className="flex flex-row w-full mt-2">
                         <CategoriesComboBox />
-                        <Button className="ml-2" type="submit" variant="ghost">
-                            <GoPlusCircle className="mr-1" /> Create new
-                        </Button>
+                        <CreateCategoryInNewNotePopup />
                     </div>
                 </div>
                 <DialogFooter>
