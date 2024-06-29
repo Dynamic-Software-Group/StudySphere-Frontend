@@ -1,103 +1,18 @@
 import Image from "next/image";
-import {Button} from "@/components/ui/button";
-import {HiOutlineDocumentChartBar} from "react-icons/hi2";
-import {HiOutlineBell, HiOutlineHeart, HiOutlineSearch, HiOutlineShare, HiOutlineTrash} from "react-icons/hi";
-import {VscSettingsGear} from "react-icons/vsc";
-import {Input} from "@/components/ui/input";
+import {HiOutlineHeart, HiOutlineShare, HiOutlineTrash} from "react-icons/hi";
+import {BiCategory} from "react-icons/bi";
+import Sidebar from "@/components/sidebar";
+import Topbar from "@/components/topbar";
 
 export default function Home() {
   return (
-    <main className="w-full h-screen flex">
+    <main className="w-full h-screen flex overflow-x-clip">
         {/* Sidebar */}
-        <div className="flex flex-col items-center w-1/5 mr-auto border-r-2 border-[#999999] h-full">
-            <div className="flex flex-row items-center justify-center w-full mt-8">
-                <Image src={'/logo-small.svg'} alt={"logo"} width={35} height={35}/>
-                <h1 className="text-xl ml-3 font-semibold">StudySphere</h1>
-            </div>
-
-            <Button
-                className="new-note-button mt-10 bg-[#5500FF] text-white hover:drop-shadow-xl transition-all w-[80%]">+
-                New Note</Button>
-
-            <a href="/" className="w-full">
-                <div className="w-full h-10 mt-10">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className="h-full bg-[#5500FF] w-[5px] rounded-r"/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <HiOutlineDocumentChartBar size={22}/>
-                            <h1 className="text-md ml-2 font-semibold">Home</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="/" className="w-full">
-                <div className="w-full h-10 mt-5">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className="h-full bg-white w-[5px] rounded-r"/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <HiOutlineHeart size={22}/>
-                            <h1 className="text-md ml-2 font-medium">Favorites</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="/" className="w-full">
-                <div className="w-full h-10 mt-5">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className="h-full bg-white w-[5px] rounded-r"/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <HiOutlineShare size={22}/>
-                            <h1 className="text-md ml-2 font-medium">Shared Notes</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="/" className="w-full">
-                <div className="w-full h-10 mt-5">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className="h-full bg-white w-[5px] rounded-r"/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <HiOutlineBell size={22}/>
-                            <h1 className="text-md ml-2 font-medium">Notifications</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="/" className="w-full">
-                <div className="w-full h-10 mt-5">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className="h-full bg-white w-[5px] rounded-r"/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <HiOutlineTrash size={22}/>
-                            <h1 className="text-md ml-2 font-medium">Trash</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="/" className="w-full">
-                <div className="w-full h-10 mt-5">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className="h-full bg-white w-[5px] rounded-r"/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <VscSettingsGear size={22}/>
-                            <h1 className="text-md ml-2 font-medium">Settings</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
+        <Sidebar />
 
         <div className="flex flex-col w-4/5">
             {/* Topbar */}
-            <div className="flex flex-row items-center justify-between w-full h-16 border-b-2 border-[#999999]">
-                <Input type="text" placeholder="Search notes..." className="w-[90%] h-10 ml-10" />
-                <Image src={'/placeholder-avatar.svg'} alt={"avatar"} width={40} height={40} className="mx-auto"/>
-            </div>
+            <Topbar />
 
             {/* Main Content */}
             <div className="flex-grow">
@@ -120,6 +35,104 @@ export default function Home() {
                         <div className="flex flex-col ml-5">
                             <h1 className="text-lg font-semibold">Collaboration</h1>
                             <h1 className="text-sm font-medium">Collaborate with the entire group</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <h1 className="text-2xl font-semibold ml-8">All Notes</h1>
+
+                {/* Notecards */}
+                <div className="grid grid-cols-2 gap-4 w-full ml-10 mt-5">
+                    <div
+                        className="notecard flex flex-col items-start justify-around h-60 rounded-md p-4 w-10/12">
+                        <h1 className="text-xl font-medium text-[#232323]">Test Note</h1>
+                        <div className="flex flex-row items-center justify-start w-full space-x-4">
+                            <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
+                            <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                        </div>
+                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Morbi dolor nunc, vestibulum nec dictum a,
+                            molestie sed sapien. Integer sodales metus dolor,
+                            ac malesuada nunc pharetra at. Nullam est enim,
+                            vestibulum vel purus sed, fermentum.</h1>
+
+                        <div className="flex flex-row items-center justify-start w-full">
+                            <div className="flex flex-row space-x-4">
+                                <HiOutlineHeart/>
+                                <HiOutlineShare/>
+                                <BiCategory/>
+                            </div>
+
+                            <HiOutlineTrash className="ml-auto"/>
+                        </div>
+                    </div>
+                    <div
+                        className="notecard flex flex-col items-start justify-around h-60 rounded-md p-4 w-10/12">
+                        <h1 className="text-xl font-medium text-[#232323]">Test Note</h1>
+                        <div className="flex flex-row items-center justify-start w-full space-x-4">
+                            <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
+                            <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                        </div>
+                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Morbi dolor nunc, vestibulum nec dictum a,
+                            molestie sed sapien. Integer sodales metus dolor,
+                            ac malesuada nunc pharetra at. Nullam est enim,
+                            vestibulum vel purus sed, fermentum.</h1>
+
+                        <div className="flex flex-row items-center justify-start w-full">
+                            <div className="flex flex-row space-x-4">
+                                <HiOutlineHeart/>
+                                <HiOutlineShare/>
+                                <BiCategory/>
+                            </div>
+
+                            <HiOutlineTrash className="ml-auto"/>
+                        </div>
+                    </div>
+                    <div
+                        className="notecard flex flex-col items-start justify-around h-60 rounded-md p-4 w-10/12">
+                        <h1 className="text-xl font-medium text-[#232323]">Test Note</h1>
+                        <div className="flex flex-row items-center justify-start w-full space-x-4">
+                            <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
+                            <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                        </div>
+                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Morbi dolor nunc, vestibulum nec dictum a,
+                            molestie sed sapien. Integer sodales metus dolor,
+                            ac malesuada nunc pharetra at. Nullam est enim,
+                            vestibulum vel purus sed, fermentum.</h1>
+
+                        <div className="flex flex-row items-center justify-start w-full">
+                            <div className="flex flex-row space-x-4">
+                                <HiOutlineHeart/>
+                                <HiOutlineShare/>
+                                <BiCategory/>
+                            </div>
+
+                            <HiOutlineTrash className="ml-auto"/>
+                        </div>
+                    </div>
+                    <div
+                        className="notecard flex flex-col items-start justify-around h-60 rounded-md p-4 w-10/12">
+                        <h1 className="text-xl font-medium text-[#232323]">Test Note</h1>
+                        <div className="flex flex-row items-center justify-start w-full space-x-4">
+                            <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
+                            <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                        </div>
+                        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Morbi dolor nunc, vestibulum nec dictum a,
+                            molestie sed sapien. Integer sodales metus dolor,
+                            ac malesuada nunc pharetra at. Nullam est enim,
+                            vestibulum vel purus sed, fermentum.</h1>
+
+                        <div className="flex flex-row items-center justify-start w-full">
+                            <div className="flex flex-row space-x-4">
+                                <HiOutlineHeart/>
+                                <HiOutlineShare/>
+                                <BiCategory/>
+                            </div>
+
+                            <HiOutlineTrash className="ml-auto"/>
                         </div>
                     </div>
                 </div>
