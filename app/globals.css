@@ -30,3 +30,18 @@ body {
 .notecard:hover {
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
 }
+
+.invite {
+    background-color: #5500FF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.invite:hover {
+    background-color: #4400CC !important;
+    color: white !important;
+}

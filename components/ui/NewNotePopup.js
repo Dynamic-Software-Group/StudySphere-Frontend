@@ -15,7 +15,7 @@ export default function NewNotePopup() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="new-note-button mt-10 bg-[#5500FF] text-white hover:drop-shadow-xl transition-all w-[80%]">+ New Note</Button>
+                <Button className="new-note-button mt-10 bg-[#5500FF] text-md text-white hover:drop-shadow-xl transition-all w-[80%]">+ New Note</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>

@@ -1,12 +1,14 @@
 import {FaArrowDown, FaArrowUp} from "react-icons/fa";
 import {IoShareSocial} from "react-icons/io5";
 import InNoteNewNotePopup from "@/components/ui/InNoteNewNotePopup";
+import RichTextEditor from "@/components/ui/RichTextEditor";
+import ShareNotecard from "@/components/ui/ShareNotecard";
 
 export default function NotecardView() {
     return (
         <main className="h-screen w-full flex flex-row">
             <div className="w-[7%] h-full flex flex-col items-center border-r-2 border-[#999999]">
-                <InNoteNewNotePopup />
+                <InNoteNewNotePopup/>
                 <h1>New Note</h1>
 
                 <div className="h-14 w-14 bg-[#F97068] rounded-full mt-10 flex items-center justify-center">
@@ -20,13 +22,15 @@ export default function NotecardView() {
                 <h1>Next Note</h1>
 
                 <div className="h-14 w-14 bg-[#D1613C] rounded-full mt-10 flex items-center justify-center">
-                    <IoShareSocial color="white" size={30}/>
+                    <ShareNotecard />
                 </div>
                 <h1>Share Note</h1>
 
             </div>
             <div className="w-[30%] h-full flex flex-col">
-                <h1 className="ml-5 mt-12 font-medium">Back</h1>
+                <a href={"/"} className="ml-5 mt-12 hover:cursor-pointer">
+                    <h1 className="font-medium">Back</h1>
+                </a>
 
                 <div className="flex h-36 rounded-md flex-row justify-start w-[95%] mx-auto mt-5 bg-[#BBE0B6] p-4">
                     <div className="flex flex-col items-center">
@@ -55,7 +59,8 @@ export default function NotecardView() {
                     </div>
                 </div>
 
-                <div className="flex h-36 rounded-md flex-row justify-start w-[95%] mx-auto mt-5 hover:bg-[#BBE0B6] hover:cursor-pointer transition-all p-4">
+                <div
+                    className="flex h-36 rounded-md flex-row justify-start w-[95%] mx-auto mt-5 hover:bg-[#BBE0B6] hover:cursor-pointer transition-all p-4">
                     <div className="flex flex-col items-center">
                         <h1 className="text-md text-[#383838] font-medium">15</h1>
                         <h1 className="text-md text-[#383838]">Monday</h1>
@@ -82,7 +87,11 @@ export default function NotecardView() {
                     </div>
                 </div>
             </div>
-            <div className="flex-grow h-full flex flex-col bg-[#50F]">
+            <div className="h-screen w-[63%] flex flex-col bg-[#50F]">
+                <h1 className="text-md text-[#999999] font-normal ml-5 mt-24">June 12, 2023</h1>
+                <h1 className="text-4xl text-white font-bold ml-5 mt-1">Job Interview Prep</h1>
+
+                <RichTextEditor />
             </div>
         </main>
     )
