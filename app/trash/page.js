@@ -2,6 +2,7 @@ import {HiHeart, HiOutlineShare, HiOutlineTrash} from "react-icons/hi";
 import {BiCategory} from "react-icons/bi";
 import Sidebar from "@/components/sidebar";
 import Topbar from "@/components/topbar";
+import {LiaTrashRestoreAltSolid} from "react-icons/lia";
 
 export default function Favorites() {
     return (
@@ -15,7 +16,8 @@ export default function Favorites() {
 
                 {/* Main Content */}
                 <div className="ml-[25%] mt-16 w-full">
-                    <h1 className="text-2xl font-semibold ml-8 mt-10">Favorites</h1>
+                    <h1 className="text-2xl font-semibold ml-8 mt-10">Trash</h1>
+                    <h1 className="text-sm font-light text-gray-500 ml-8 mt-2">Deleted notes will be permanently deleted after <span className="text-red-500">30 days</span></h1>
 
                     {/* Notecards */}
                     <div className="grid grid-cols-2 gap-4 w-full ml-10 mt-5">
@@ -40,13 +42,7 @@ export default function Favorites() {
                                 vestibulum vel purus sed, fermentum.</h1>
 
                             <div className="flex flex-row items-center justify-start w-full">
-                                <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
-                                    <HiOutlineShare/>
-                                    <BiCategory/>
-                                </div>
-
-                                <HiOutlineTrash className="ml-auto"/>
+                                <LiaTrashRestoreAltSolid size={18} />
                             </div>
                         </div>
                         <div
@@ -70,13 +66,7 @@ export default function Favorites() {
                                 vestibulum vel purus sed, fermentum.</h1>
 
                             <div className="flex flex-row items-center justify-start w-full">
-                                <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
-                                    <HiOutlineShare/>
-                                    <BiCategory/>
-                                </div>
-
-                                <HiOutlineTrash className="ml-auto"/>
+                                <LiaTrashRestoreAltSolid size={18} />
                             </div>
                         </div>
                         <div
@@ -100,13 +90,7 @@ export default function Favorites() {
                                 vestibulum vel purus sed, fermentum.</h1>
 
                             <div className="flex flex-row items-center justify-start w-full">
-                                <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
-                                    <HiOutlineShare/>
-                                    <BiCategory/>
-                                </div>
-
-                                <HiOutlineTrash className="ml-auto"/>
+                                <LiaTrashRestoreAltSolid size={18} />
                             </div>
                         </div>
                         <div
@@ -130,13 +114,7 @@ export default function Favorites() {
                                 vestibulum vel purus sed, fermentum.</h1>
 
                             <div className="flex flex-row items-center justify-start w-full">
-                                <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
-                                    <HiOutlineShare/>
-                                    <BiCategory/>
-                                </div>
-
-                                <HiOutlineTrash className="ml-auto"/>
+                                <LiaTrashRestoreAltSolid size={18} />
                             </div>
                         </div>
                     </div>

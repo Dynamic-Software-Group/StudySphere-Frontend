@@ -1,4 +1,4 @@
-import {HiHeart, HiOutlineShare, HiOutlineTrash} from "react-icons/hi";
+import {HiHeart, HiOutlineHeart, HiOutlineShare, HiOutlineTrash} from "react-icons/hi";
 import {BiCategory} from "react-icons/bi";
 import Sidebar from "@/components/sidebar";
 import Topbar from "@/components/topbar";
@@ -15,7 +15,7 @@ export default function Favorites() {
 
                 {/* Main Content */}
                 <div className="ml-[25%] mt-16 w-full">
-                    <h1 className="text-2xl font-semibold ml-8 mt-10">Favorites</h1>
+                    <h1 className="text-2xl font-semibold ml-8 mt-10">Shared Notes</h1>
 
                     {/* Notecards */}
                     <div className="grid grid-cols-2 gap-4 w-full ml-10 mt-5">
@@ -25,6 +25,7 @@ export default function Favorites() {
                             <div className="flex flex-row items-center justify-start w-full space-x-4">
                                 <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                                 <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                                <h1 className="text-sm text-[#565656] ml-auto">Shared by: John Doe</h1>
                             </div>
                             <h1 style={{
                                 overflowWrap: 'break-word',
@@ -41,7 +42,7 @@ export default function Favorites() {
 
                             <div className="flex flex-row items-center justify-start w-full">
                                 <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
+                                    <HiOutlineHeart />
                                     <HiOutlineShare/>
                                     <BiCategory/>
                                 </div>
@@ -55,6 +56,7 @@ export default function Favorites() {
                             <div className="flex flex-row items-center justify-start w-full space-x-4">
                                 <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                                 <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                                <h1 className="text-sm text-[#565656] ml-auto">Shared by: John Doe</h1>
                             </div>
                             <h1 style={{
                                 overflowWrap: 'break-word',
@@ -71,7 +73,7 @@ export default function Favorites() {
 
                             <div className="flex flex-row items-center justify-start w-full">
                                 <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
+                                    <HiOutlineHeart />
                                     <HiOutlineShare/>
                                     <BiCategory/>
                                 </div>
@@ -85,6 +87,7 @@ export default function Favorites() {
                             <div className="flex flex-row items-center justify-start w-full space-x-4">
                                 <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                                 <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                                <h1 className="text-sm text-[#565656] ml-auto">Shared by: John Doe</h1>
                             </div>
                             <h1 style={{
                                 overflowWrap: 'break-word',
@@ -101,7 +104,7 @@ export default function Favorites() {
 
                             <div className="flex flex-row items-center justify-start w-full">
                                 <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
+                                    <HiOutlineHeart />
                                     <HiOutlineShare/>
                                     <BiCategory/>
                                 </div>
@@ -115,6 +118,7 @@ export default function Favorites() {
                             <div className="flex flex-row items-center justify-start w-full space-x-4">
                                 <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
                                 <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                                <h1 className="text-sm text-[#565656] ml-auto">Shared by: John Doe</h1>
                             </div>
                             <h1 style={{
                                 overflowWrap: 'break-word',
@@ -131,7 +135,7 @@ export default function Favorites() {
 
                             <div className="flex flex-row items-center justify-start w-full">
                                 <div className="flex flex-row space-x-4">
-                                    <HiHeart color="red" />
+                                    <HiOutlineHeart />
                                     <HiOutlineShare/>
                                     <BiCategory/>
                                 </div>
