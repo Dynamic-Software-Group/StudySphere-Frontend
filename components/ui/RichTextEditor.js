@@ -9,6 +9,7 @@ import {WebsocketProvider} from "y-websocket";
 import {QuillBinding} from "y-quill";
 import Quill from "quill";
 import QuillCursors from 'quill-cursors';
+import axios from "axios";
 
 function RichTextEditor() {
     const quillContainer = useRef(null);
@@ -23,6 +24,7 @@ function RichTextEditor() {
         const ydoc = new Y.Doc();
         const provider = new WebsocketProvider('ws://localhost:5555', 'quill-demo', ydoc);
 
+
         const editor = new Quill(quillContainer.current, {
             theme: 'snow',
             modules: {
@@ -31,6 +33,57 @@ function RichTextEditor() {
             }
         });
 
+        const tokenCookie = document.cookie
+            .split(";")
+            .find((c) => c.trim().startsWith("token="))
+            .split("=")[1];
+
+        let socket = new WebSocket(`ws://localhost:8887?token=${encodeURIComponent(tokenCookie)}`);
+
+        socket.onopen = () => {
+            console.log('WebSocket is connected.');
+        };
+
+        socket.onerror = (error) => {
+            console.error('WebSocket encountered an error:', error);
+        };
+
+        socket.onmessage = (event) => {
+            console.log('WebSocket received a message:', event.data);
+        };
+
+        const encoder = new TextEncoder();
+
+        ydoc.on('update', async () => {
+            if (socket.readyState !== WebSocket.OPEN) {
+                socket = new WebSocket(`ws://localhost:8887?token=${encodeURIComponent("eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InRlc3R0ZXN0IiwiZW1haWwiOiJ0ZXN0dGVzdCIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxOTcwMDE2MCwiZXhwIjoxNzIwMzA0OTYwfQ.-VHYxHWNkekr-dm1G8AqliDGlYnA3aHz6b41NYZJXGk")}`);
+
+                socket.onopen = () => {
+                    console.log('WebSocket is reconnected.');
+                    socket.send({
+                        type: 'update',
+                        token: tokenCookie,
+                        data: ydoc.getText('quill').toJSON()
+                    });
+                };
+
+                socket.onerror = (error) => {
+                    console.error('WebSocket encountered an error:', error);
+                };
+
+                socket.onmessage = (event) => {
+                    console.log('WebSocket received a message:', event.data);
+                };
+            } else {
+                const update = encoder.encode(ydoc.getText('quill').toJSON());
+                socket.send(JSON.stringify({
+                    type: 'update',
+                    token: tokenCookie,
+                    data: update,
+                    notecardId: ""
+                }));
+            }
+        });
 
         quillContainer.current.editor = editor;
 
