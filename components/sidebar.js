@@ -9,21 +9,26 @@ import NewNotePopup from "@/components/ui/NewNotePopup";
 export default function Sidebar() {
 
     function getBarColor(targetPath) {
-        const path = window.location.pathname;
+        try {
 
-        if (targetPath === "/") {
-            return path === "/" ? "#5500FF" : "#ffffff";
-        }
-        return path.includes(targetPath) ? "#5500FF" : "#ffffff";
+            const path = window.location.pathname;
+
+            if (targetPath === "/") {
+                return path === "/" ? "#5500FF" : "#ffffff";
+            }
+            return path.includes(targetPath) ? "#5500FF" : "#ffffff";
+        } catch (e) {}
     }
 
     function getTextWeight(targetPath) {
-        const path = window.location.pathname;
+        try {
+            const path = window.location.pathname;
 
-        if (targetPath === "/") {
-            return path === "/" ? "font-semibold" : "font-medium";
-        }
-        return path.includes(targetPath) ? "font-semibold" : "font-medium";
+            if (targetPath === "/") {
+                return path === "/" ? "font-semibold" : "font-medium";
+            }
+            return path.includes(targetPath) ? "font-semibold" : "font-medium";
+        } catch (e) {}
     }
 
     return (

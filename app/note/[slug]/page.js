@@ -1,9 +1,12 @@
+"use client"
+
 import {FaArrowDown, FaArrowUp} from "react-icons/fa";
 import {IoShareSocial} from "react-icons/io5";
 import InNoteNewNotePopup from "@/components/ui/InNoteNewNotePopup";
-import RichTextEditor from "@/components/ui/RichTextEditor";
 import ShareNotecard from "@/components/ui/ShareNotecard";
+import dynamic from "next/dynamic";
 
+const RichTextEditor = dynamic(() => import('../../../components/ui/RichTextEditor'), { ssr: false });
 export default function NotecardView() {
     return (
         <main className="h-screen w-full flex flex-row">
@@ -89,7 +92,7 @@ export default function NotecardView() {
             </div>
             <div className="h-screen w-[63%] flex flex-col bg-[#50F]">
                 <h1 className="text-md text-[#999999] font-normal ml-5 mt-24">June 12, 2023</h1>
-                <h1 className="text-4xl text-white font-bold ml-5 mt-1">Job Interview Prep</h1>
+                <h1 className="text-4xl text-white font-bold ml-5 mt-1 mb-10">Job Interview Prep</h1>
 
                 <RichTextEditor />
             </div>

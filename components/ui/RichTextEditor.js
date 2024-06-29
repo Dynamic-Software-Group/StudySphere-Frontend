@@ -1,63 +1,49 @@
 "use client";
 
-import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
+import "quill/dist/quill.snow.css";
+
+import React, {useEffect, useRef} from 'react';
+import * as Y from 'yjs';
 import '../../styles/quillEditorStyles.css'
+import {WebsocketProvider} from "y-websocket";
+import {QuillBinding} from "y-quill";
+import Quill from "quill";
+import QuillCursors from 'quill-cursors';
+
+function RichTextEditor() {
+    const quillContainer = useRef(null);
+
+    useEffect(() => {
+        if (!quillContainer.current || quillContainer.current.editor) {
+            return;
+        }
+
+        Quill.register('modules/cursors', QuillCursors);
+
+        const ydoc = new Y.Doc();
+        const provider = new WebsocketProvider('ws://localhost:5555', 'quill-demo', ydoc);
+
+        const editor = new Quill(quillContainer.current, {
+            theme: 'snow',
+            modules: {
+                cursors: true,
+                toolbar: true
+            }
+        });
 
 
-const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
+        quillContainer.current.editor = editor;
 
-export default function RichTextEditor() {
-    const [content, setContent] = useState('');
-
-    const quillModules = {
-        toolbar: [
-            [{ header: [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            ['link', 'image'],
-            [{ align: [] }],
-            [{ color: [] }],
-            ['code-block'],
-            ['clean'],
-        ],
-    };
-
-
-    const quillFormats = [
-        'header',
-        'bold',
-        'italic',
-        'underline',
-        'strike',
-        'blockquote',
-        'list',
-        'bullet',
-        'link',
-        'image',
-        'align',
-        'color',
-        'code-block',
-    ];
-
-    const handleEditorChange = (newContent) => {
-        setContent(newContent);
-    };
+        provider.on('status', (event) => {
+            if (event.status === 'connected') {
+                const binding = new QuillBinding(ydoc.getText('quill'), editor, provider.awareness);
+            }
+        });
+    }, []);
 
     return (
-        <main>
-            <div className="w-[95%] mx-auto flex items-center flex-col">
-                <div className="h-full w-full">
-                    <QuillEditor
-                        value={content}
-                        onChange={handleEditorChange}
-                        modules={quillModules}
-                        formats={quillFormats}
-                        className="w-full h-[70%] mt-10 bg-white rounded"
-                    />
-                </div>
-            </div>
-        </main>
+        <div ref={quillContainer} style={{ height: '500px' }} />
     );
 }
+
+export default RichTextEditor;
