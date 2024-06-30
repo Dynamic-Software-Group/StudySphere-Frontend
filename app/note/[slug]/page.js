@@ -1,7 +1,6 @@
 "use client"
 
-import {FaArrowDown, FaArrowUp} from "react-icons/fa";
-import {IoShareSocial} from "react-icons/io5";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import InNoteNewNotePopup from "@/components/ui/InNoteNewNotePopup";
 import ShareNotecard from "@/components/ui/ShareNotecard";
 import dynamic from "next/dynamic";
@@ -10,9 +9,11 @@ import { getNotecard, getNotes } from "@/lib/api";
 import { Note } from "@/lib/models/note";
 
 const RichTextEditor = dynamic(() => import('../../../components/ui/RichTextEditor'), { ssr: false });
+
 export default function NotecardView() {
     const [notecard, setNotecard] = useState(null);
     const [allCards, setAllCards] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -28,18 +29,22 @@ export default function NotecardView() {
                 .find((cookie) => cookie.includes("token"))
                 .split("=")[1];
 
-            await getNotecard(notecardId, tokenCookie).then((response) => {
-                console.log(response);
-                const notecardObj = Note.fromJson(response);
-                console.log(notecardObj);
-                setNotecard(notecardObj);
-            });
+            const notecardResponse = await getNotecard(notecardId, tokenCookie);
+            const notecardObj = Note.fromJson(notecardResponse);
+            setNotecard(notecardObj);
 
             const allCardsResponse = await getNotes(tokenCookie);
             setAllCards(allCardsResponse.notecards);
+
+            setLoading(false);
         }
+
         fetchData();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <main className="h-screen w-full flex flex-row">
