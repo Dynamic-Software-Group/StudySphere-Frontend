@@ -16,8 +16,9 @@ import {createCategory, deleteNotecard} from "@/lib/api";
 import {HiOutlineTrash} from "react-icons/hi";
 import {Checkbox} from "@/components/ui/checkbox";
 import {toast} from "sonner";
+import {useEffect} from "react";
 
-export default function DeleteConfirmPopup({ notecardName, notecardId }) {
+export default function DeleteConfirmPopup({ notecardName, notecardId, onOpen, onClose }) {
 
     async function handleDeleteNotecard() {
         const confirmCheckbox = document.getElementById("confirm");
@@ -42,11 +43,19 @@ export default function DeleteConfirmPopup({ notecardName, notecardId }) {
                 toast.error("Error deleting notecard.");
             }
         }
+
+        onClose();
     }
 
 
     return (
-        <Dialog>
+        <Dialog onOpenChange={(isOpen) => {
+            if (!isOpen) {
+                onClose();
+            } else {
+                onOpen();
+            }
+        }}>
             <DialogTrigger asChild>
                 <HiOutlineTrash className="ml-auto" />
             </DialogTrigger>
@@ -54,7 +63,7 @@ export default function DeleteConfirmPopup({ notecardName, notecardId }) {
                 <DialogHeader>
                     <DialogTitle>Confirm deletion</DialogTitle>
                     <DialogDescription>
-                        <span className="text-red-600">Are you sure you want to delete the notecard <span className="font-bold">{notecardName}</span><span className="font-normal">?</span></span>
+                        <span className="text-red-600">Are you sure you want to delete the notecard <span className="font-bold">{notecardName}</span><span className="font-normal">? It will be moved to the trash for 30 days.</span></span>
                     </DialogDescription>
                 </DialogHeader>
                 <div>

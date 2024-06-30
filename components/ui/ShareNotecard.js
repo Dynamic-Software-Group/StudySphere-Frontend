@@ -17,9 +17,23 @@ import {useState} from "react";
 import Image from "next/image";
 import {FaRegCopy} from "react-icons/fa";
 import {toast} from "@/components/ui/use-toast";
+import {shareNotecard} from "@/lib/api";
 
-export default function ShareNotecard() {
+export default function ShareNotecard({ notecardId }) {
     const [role, setRole] = useState('Editor')
+
+    async function inviteUser() {
+        const email = document.getElementById("email").value;
+        console.log(email);
+
+        const tokenCookie = document.cookie
+            .split(";")
+            .find((cookie) => cookie.includes("token"))
+            .split("=")[1];
+
+        const res = await shareNotecard(tokenCookie, notecardId, email)
+        console.log(res)
+    }
 
     return (
         <Dialog>
@@ -35,7 +49,7 @@ export default function ShareNotecard() {
                 </DialogHeader>
                 <div>
                     <div className="flex flex-row items-center space-x-5">
-                        <Input id="username" placeholder="Enter email..." type="email"/>
+                        <Input id="email" placeholder="Enter email..." type="email"/>
                         <DropdownMenu>
                             <DropdownMenuTrigger>
                                 <Button variant="outline">{role}</Button>
@@ -45,7 +59,7 @@ export default function ShareNotecard() {
                                 <DropdownMenuItem onClick={() => setRole('Viewer')}>Viewer</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <Button className="invite" type="submit" variant="ghost">Invite</Button>
+                        <Button className="invite" type="submit" variant="ghost" onClick={() => inviteUser()}>Invite</Button>
                     </div>
 
                     <h1 className="mt-5 text-[#181818] font-lg">People with access</h1>

@@ -58,7 +58,7 @@ export default function NotecardView() {
                 <h1>Next Note</h1>
 
                 <div className="h-14 w-14 bg-[#D1613C] rounded-full mt-10 flex items-center justify-center">
-                    {/*<ShareNotecard />*/}
+                    <ShareNotecard notecardId={notecard.id} />
                 </div>
                 <h1>Share Note</h1>
             </div>

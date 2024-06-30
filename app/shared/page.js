@@ -94,7 +94,7 @@ export default function Shared() {
                                         <h1 className="text-xl font-medium text-[#232323]">
                                             {notecard.name}
                                         </h1>
-                                        <Badge variant="destructive" onClick={() => {
+                                        <Badge className="chip" variant="destructive" onClick={() => {
                                             if (filteredCategory === "") {
                                                 setFilteredCategory(notecard.category.name)
                                             } else {
