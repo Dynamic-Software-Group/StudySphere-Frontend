@@ -20,6 +20,7 @@ const formSchema = z.object({
 
 export default function Home() {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -37,13 +38,15 @@ export default function Home() {
             return;
         }
 
+        setLoading(true);
         const signedUp = await signup(values.email, values.password, values.name);
 
         if (signedUp === false) {
             // 409; user already exists
             toast.error("User already exists, please make sure your email and username are unique!")
+            setLoading(false)
         } else {
-            await sendVerificationEmail(values.email, values.password);
+            await sendVerificationEmail(values.email);
 
             toast.info("Verification email sent!", {
                 description: "Please check your email to verify your account.",
@@ -54,6 +57,7 @@ export default function Home() {
                     }
                 }
             })
+            setLoading(false);
         }
     }
 
@@ -149,7 +153,9 @@ export default function Home() {
                             )}
                         />
 
-                        <Button type="submit" className="mt-8 w-full rounded-full h-10">Create account</Button>
+                        <Button type="submit" className="mt-8 w-full rounded-full h-10" disabled={loading}>
+                            {loading ? "Loading..." : "Create Account"}
+                        </Button>
                     </form>
                 </Form>
 

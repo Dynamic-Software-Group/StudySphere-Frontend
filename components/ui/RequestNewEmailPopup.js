@@ -30,14 +30,13 @@ export default function RequestNewEmailPopup() {
                         <Label htmlFor="name" className="text-right">
                             Email
                         </Label>
-                        <Input id="email" value="you@yourname.com" className="col-span-3" />
+                        <Input id="email" placeholder="you@yourname.com" className="col-span-3" />
                     </div>
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button type="submit" onClick={() => {
-                            const token = localStorage.getItem('token')
-                            sendVerificationEmail(token)
+                        <Button type="submit" onClick={async () => {
+                            await sendVerificationEmail(document.getElementById('email').value)
                         }}>Send email</Button>
                     </DialogClose>
                 </DialogFooter>
