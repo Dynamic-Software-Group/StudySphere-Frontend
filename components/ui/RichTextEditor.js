@@ -9,7 +9,6 @@ import {WebsocketProvider} from "y-websocket";
 import {QuillBinding} from "y-quill";
 import Quill from "quill";
 import QuillCursors from 'quill-cursors';
-import axios from "axios";
 
 function RichTextEditor() {
     const quillContainer = useRef(null);
@@ -20,9 +19,10 @@ function RichTextEditor() {
         }
 
         Quill.register('modules/cursors', QuillCursors);
+        const noteId = window.location.pathname.split("/")[2];
 
         const ydoc = new Y.Doc();
-        const provider = new WebsocketProvider('ws://localhost:5555', 'quill-demo', ydoc);
+        const provider = new WebsocketProvider('ws://localhost:5555', noteId, ydoc);
 
 
         const editor = new Quill(quillContainer.current, {
