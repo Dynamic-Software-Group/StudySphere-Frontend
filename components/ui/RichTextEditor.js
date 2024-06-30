@@ -64,14 +64,18 @@ function RichTextEditor() {
                     {
                         type: 'update',
                         token: tokenCookie,
-                        data: update,
+                        data: [
+                            update
+                        ],
                         notecardId: notecardId
                     }
                 ));
                 socket.send(JSON.stringify({
                     type: 'update',
                     token: tokenCookie,
-                    data: update,
+                    data: [
+                        update
+                    ],
                     notecardId: notecardId
                 }));
             }
