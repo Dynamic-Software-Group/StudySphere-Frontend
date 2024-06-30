@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import {Note} from "@/lib/models/note";
 import {getFavorites, getNotes, unfavoriteNotecard} from "@/lib/api";
 import {Badge} from "@/components/ui/badge";
+import DeleteConfirmPopup from "@/components/ui/DeleteConfirmPopup";
 
 export default function Favorites() {
     const [notecards, setNotecards] = useState([]);
@@ -127,7 +128,7 @@ export default function Favorites() {
                                             <BiCategory />
                                         </div>
 
-                                        <HiOutlineTrash className="ml-auto" />
+                                        <DeleteConfirmPopup notecardId={notecard.id} notecardName={notecard.name} />
                                     </div>
                                 </div>
                             ))}

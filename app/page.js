@@ -11,6 +11,7 @@ import { Note } from "@/lib/models/note";
 import CreateCategoryPopup from "@/components/ui/CreateCategoryPopup";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import DeleteConfirmPopup from "@/components/ui/DeleteConfirmPopup";
 
 const decoder = new TextDecoder();
 
@@ -201,7 +202,7 @@ export default function Home() {
                                             <BiCategory />
                                         </div>
 
-                                        <HiOutlineTrash className="ml-auto" />
+                                        <DeleteConfirmPopup notecardId={notecard.id} notecardName={notecard.name} />
                                     </div>
                                 </div>
                             ))}
