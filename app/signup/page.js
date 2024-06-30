@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import {IoIosEyeOff, IoMdEye} from "react-icons/io";
 import {login, signup} from "@/lib/api";
+import {toast} from "sonner";
 
 const formSchema = z.object({
     name: z.string(),
@@ -31,19 +32,26 @@ export default function Home() {
     })
 
     async function onSubmit(values) {
+        if (values.password !== values.confirmPassword) {
+            toast.error("Passwords do not match")
+            return;
+        }
+
         const signedUp = await signup(values.email, values.password, values.name);
 
         if (signedUp === false) {
             // 409; user already exists
+            toast.error("User already exists, please make sure your email and username are unique!")
         } else {
             const token = await login(values.email, values.password);
-            console.log(token)
 
             if (token == null) {
-                console.error("Login failed")
+                toast.error("An error occurred while logging in. Please try again.")
             } else {
-                console.log(token)
                 document.cookie = `token=${token}; path=/`;
+                console.log(token)
+                toast.success("Logged in successfully as " + values.email)
+                window.location.href = "/";
             }
         }
     }
