@@ -14,6 +14,8 @@ function RichTextEditor() {
     const quillContainer = useRef(null);
 
     useEffect(() => {
+        const notecardId = window.location.pathname.split("/")[2];
+
         if (!quillContainer.current || quillContainer.current.editor) {
             return;
         }
@@ -55,34 +57,25 @@ function RichTextEditor() {
         const encoder = new TextEncoder();
 
         ydoc.on('update', async () => {
-            if (socket.readyState !== WebSocket.OPEN) {
-                socket = new WebSocket(`ws://localhost:8887?token=${encodeURIComponent(tokenCookie)}`);
-
-                socket.onopen = () => {
-                    console.log('WebSocket is reconnected.');
-                    socket.send({
+            console.log(socket.readyState)
+            if (socket.readyState === WebSocket.OPEN) {
+                const update = encoder.encode(ydoc.getText('quill').toJSON());
+                console.log('Sending update:', JSON.stringify(
+                    {
                         type: 'update',
                         token: tokenCookie,
-                        data: ydoc.getText('quill').toJSON()
-                    });
-                };
-
-                socket.onerror = (error) => {
-                    console.error('WebSocket encountered an error:', error);
-                };
-
-                socket.onmessage = (event) => {
-                    console.log('WebSocket received a message:', event.data);
-                };
-            } else {
-                const update = encoder.encode(ydoc.getText('quill').toJSON());
+                        data: update,
+                        notecardId: notecardId
+                    }
+                ));
                 socket.send(JSON.stringify({
                     type: 'update',
                     token: tokenCookie,
                     data: update,
-                    notecardId: ""
+                    notecardId: notecardId
                 }));
             }
+
         });
 
         quillContainer.current.editor = editor;
