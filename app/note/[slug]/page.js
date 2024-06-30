@@ -52,16 +52,6 @@ export default function NotecardView() {
                 <InNoteNewNotePopup />
                 <h1>New Note</h1>
 
-                <div className="h-14 w-14 bg-[#F97068] rounded-full mt-10 flex items-center justify-center">
-                    <FaArrowUp color="white" size={30} />
-                </div>
-                <h1>Prev. Note</h1>
-
-                <div className="h-14 w-14 bg-[#DEB841] rounded-full mt-10 flex items-center justify-center">
-                    <FaArrowDown color="white" size={30} />
-                </div>
-                <h1>Next Note</h1>
-
                 <div className="h-14 w-14 bg-[#D1613C] rounded-full mt-10 flex items-center justify-center">
                     <ShareNotecard notecardId={notecard.id} />
                 </div>

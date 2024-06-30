@@ -36,9 +36,10 @@ export default function Shared() {
 
     function handleNotecardClick(id) {
         const clickedElement = window.event.target;
+        console.log(popupOpen)
 
         console.log(window.event.target.classList)
-        if (window.event.target.tagName !== "svg" && window.event.target.tagName !== "path" && !clickedElement.classList.value.includes(
+        if (window.event.target.tagName !== "svg" && window.event.target.tagName !== "path" && !popupOpen && !clickedElement.classList.value.includes(
             'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:ring-offset-2 dark:border-neutral-800 dark:focus:ring-neutral-300 border-transparent bg-red-500 text-neutral-50 shadow hover:bg-red-500/80 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/80'
         )) {
             window.location.href = `/note/${id}`;

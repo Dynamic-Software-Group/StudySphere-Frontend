@@ -32,7 +32,6 @@ export default function Home() {
                 const favorites = await getFavorites(tokenCookie);
                 const favoriteIds = favorites.notecards.map((note) => note.id);
 
-                console.log(response);
                 const notes = response.notecards.map((note) => {
                     const mappedNote = Note.fromJson(note);
                     mappedNote.favorited = favoriteIds.includes(note.id);
@@ -42,8 +41,6 @@ export default function Home() {
 
                     return mappedNote;
                 });
-
-                console.log(notes);
 
                 setNotecards(notes);
             } catch (error) {

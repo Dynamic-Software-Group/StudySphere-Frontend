@@ -131,9 +131,6 @@ export default function Home() {
                                     Remember me for 30 days
                                 </label>
                             </div>
-                            <div className="ml-auto">
-                                <h1 className="text-xs text-[#A8A8A8]">Forgot password?</h1>
-                            </div>
                         </div>
 
                         <Button type="submit" className="mt-5 w-full rounded-full h-10" disabled={isLoading}>

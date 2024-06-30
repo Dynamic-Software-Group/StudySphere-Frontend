@@ -36,7 +36,6 @@ export default function Favorites() {
                             <Input label="Profile Picture" type="file"/>
                         </div>
 
-                        <Button className="invite w-1/3 mx-auto ">Request Password Reset</Button>
                         <Button className="invite w-full">Save Changes</Button>
                     </div>
                 </div>
