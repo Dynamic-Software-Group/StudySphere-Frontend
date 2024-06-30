@@ -107,7 +107,7 @@ export default function NotecardView() {
                 {notecard && (
                     <>
                         <h1 className="text-md text-[#999999] font-normal ml-5 mt-24">{formatDate(notecard.created)}</h1>
-                        <h1 className="text-4xl text-white font-bold ml-5 mt-1">{notecard.name}</h1>
+                        <h1 className="text-4xl text-white font-bold ml-5 mt-1 mb-2">{notecard.name}</h1>
                         <RichTextEditor content={notecard.content} />
                     </>
                 )}
