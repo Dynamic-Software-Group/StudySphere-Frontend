@@ -117,12 +117,26 @@ export default function NotecardView() {
                             </div>
                             <button disabled={aiLoading} className="ml-auto mt-20 mr-[5%]" onClick={async () => {
                                 setAiLoading(true);
-                                const decodedContent = await summarize(notecard.content);
-                                const content = await summarize(decodedContent);
+                                const decoder = new TextDecoder();
+                                const decodedContent = decoder.decode(notecard.content);
+                                const content = await summarize(decodedContent, notecard.id);
 
                                 if (content === 'Quota') {
                                     setAiLoading(false);
                                     toast.error("AI Quota reached, please try again later");
+                                    return;
+                                }
+
+                                if (content === 'Moderated') {
+                                    setAiLoading(false);
+                                    toast.error("Content is inappropriate");
+                                    return;
+                                }
+
+                                if (content === null) {
+                                    setAiLoading(false);
+                                    toast.error("Error occurred while summarizing content");
+                                    return;
                                 }
 
                                 setAiLoading(false);
