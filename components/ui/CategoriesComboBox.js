@@ -18,25 +18,43 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-
-const frameworks = [
-    {
-        value: "school",
-        label: "School",
-    },
-    {
-        value: "personal",
-        label: "Personal",
-    },
-    {
-        value: "groceries",
-        label: "Groceries",
-    }
-]
+import {useEffect} from "react";
+import {listCategories} from "@/lib/api";
 
 export default function CategoriesComboBox() {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
+    const [categories, setCategories] = React.useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const tokenCookie = document.cookie
+                    .split(";")
+                    .find((cookie) => cookie.includes("token"))
+                    .split("=")[1];
+                const data = await listCategories(tokenCookie)
+                if (data == null) {
+                    return
+                }
+
+                const mappedCategories = data.map((category) => ({
+                    label: category.name,
+                    value: category.name
+                }));
+
+                setCategories(mappedCategories);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        }
+        fetchData();
+    }, []);
+
+    function handleChangeCategory(value) {
+        setValue(value)
+        document.cookie = `category=${value}; path=/`;
+    }
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -45,34 +63,34 @@ export default function CategoriesComboBox() {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-3/4 justify-between"
+                    className="w-full justify-between"
                 >
                     {value
-                        ? frameworks.find((framework) => framework.value === value)?.label
+                        ? categories.find((framework) => framework.value === value)?.label
                         : "Select category..."}
                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
                 <Command>
-                    <CommandInput placeholder="Search framework..." className="h-9" />
+                    <CommandInput placeholder="Search categories..." className="h-9" />
                     <CommandList>
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>No categories found...</CommandEmpty>
                         <CommandGroup>
-                            {frameworks.map((framework) => (
+                            {categories.map((category) => (
                                 <CommandItem
-                                    key={framework.value}
-                                    value={framework.value}
+                                    key={category.value}
+                                    value={category.value}
                                     onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
+                                        handleChangeCategory(currentValue === value ? "" : currentValue)
                                         setOpen(false)
                                     }}
                                 >
-                                    {framework.label}
+                                    {category.label}
                                     <CheckIcon
                                         className={cn(
                                             "ml-auto h-4 w-4",
-                                            value === framework.value ? "opacity-100" : "opacity-0"
+                                            value === category.value ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                 </CommandItem>

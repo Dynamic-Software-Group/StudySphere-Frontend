@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import {GoPlusCircle} from "react-icons/go";
 import {createCategory} from "@/lib/api";
 
-export default function CreateCategoryInNewNotePopup() {
+export default function CreateCategoryPopup() {
 
     async function handleCreateCategory() {
         const name = document.getElementById("name").value;
@@ -28,8 +28,8 @@ export default function CreateCategoryInNewNotePopup() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="ml-2" type="submit" variant="ghost">
-                    <GoPlusCircle className="mr-1" /> Create new
+                <Button className="ml-2 font-bold" type="submit" variant="outline">
+                    <GoPlusCircle className="mr-1" /> Create new category
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">

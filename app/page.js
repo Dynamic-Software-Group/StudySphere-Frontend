@@ -8,6 +8,7 @@ import Topbar from "@/components/topbar";
 import { useEffect, useState } from "react";
 import { getNotes } from "@/lib/api";
 import { Note } from "@/lib/models/note";
+import CreateCategoryPopup from "@/components/ui/CreateCategoryPopup";
 
 export default function Home() {
     const [notecards, setNotecards] = useState([]);
@@ -65,7 +66,10 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <h1 className="text-2xl font-semibold ml-8">All Notes</h1>
+                    <div className="flex flex-row items-center w-full">
+                        <h1 className="text-2xl font-semibold ml-8 mr-2">All Notes</h1>
+                        <CreateCategoryPopup />
+                    </div>
 
                     {/* Notecards */}
                     {notecards.length === 0 ? (

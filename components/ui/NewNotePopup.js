@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import {
-    Dialog,
+    Dialog, DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -12,9 +12,29 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import CategoriesComboBox from "@/components/ui/CategoriesComboBox";
 import {GoPlusCircle} from "react-icons/go";
-import CreateCategoryInNewNotePopup from "@/components/ui/CreateCategoryInNewNotePopup";
+import CreateCategoryPopup from "@/components/ui/CreateCategoryPopup";
+import {createNotecard} from "@/lib/api";
 
 export default function NewNotePopup() {
+    async function handleCreateNote() {
+        const title = document.getElementById("username").value;
+        const category = document.cookie
+            .split(";")
+            .find((cookie) => cookie.includes("category"))
+            .split("=")[1];
+
+        const tokenCookie = document.cookie
+            .split(";")
+            .find((cookie) => cookie.includes("token"))
+            .split("=")[1];
+
+        await createNotecard(title, category, tokenCookie);
+
+        document.cookie = `category=none; path=/`;
+
+        window.location.reload();
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -31,11 +51,12 @@ export default function NewNotePopup() {
                     <Input id="username" placeholder="Enter title..." type="text"/>
                     <div className="flex flex-row w-full mt-2">
                         <CategoriesComboBox />
-                        <CreateCategoryInNewNotePopup />
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button className="invite w-full" type="submit">Create note</Button>
+                    <DialogClose asChild>
+                        <Button className="invite w-full" type="submit" onClick={() => handleCreateNote()}>Create note</Button>
+                    </DialogClose>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

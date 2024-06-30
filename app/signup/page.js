@@ -51,7 +51,7 @@ export default function Home() {
                 document.cookie = `token=${token}; path=/`;
                 console.log(token)
                 toast.success("Logged in successfully as " + values.email)
-                // window.location.href = "/";
+                window.location.href = "/";
             }
         }
     }
