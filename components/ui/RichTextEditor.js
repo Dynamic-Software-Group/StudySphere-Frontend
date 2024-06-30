@@ -56,7 +56,7 @@ function RichTextEditor() {
 
         ydoc.on('update', async () => {
             if (socket.readyState !== WebSocket.OPEN) {
-                socket = new WebSocket(`ws://localhost:8887?token=${encodeURIComponent("eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InRlc3R0ZXN0IiwiZW1haWwiOiJ0ZXN0dGVzdCIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxOTcwMDE2MCwiZXhwIjoxNzIwMzA0OTYwfQ.-VHYxHWNkekr-dm1G8AqliDGlYnA3aHz6b41NYZJXGk")}`);
+                socket = new WebSocket(`ws://localhost:8887?token=${encodeURIComponent(tokenCookie)}`);
 
                 socket.onopen = () => {
                     console.log('WebSocket is reconnected.');
