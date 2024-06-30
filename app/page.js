@@ -21,6 +21,7 @@ export default function Home() {
                     .find((cookie) => cookie.includes("token"))
                     .split("=")[1];
                 const response = await getNotes(tokenCookie);
+                console.log(response);
                 const notes = response.notecards.map((note) => Note.fromJson(note));
                 setNotecards(notes);
             } catch (error) {
