@@ -1,13 +1,15 @@
-"use client";
+"use client"
 
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import {FaArrowDown, FaArrowUp} from "react-icons/fa";
+import {IoShareSocial} from "react-icons/io5";
 import InNoteNewNotePopup from "@/components/ui/InNoteNewNotePopup";
-import RichTextEditor from "@/components/ui/RichTextEditor";
 import ShareNotecard from "@/components/ui/ShareNotecard";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { getNotecard, getNotes } from "@/lib/api";
 import { Note } from "@/lib/models/note";
 
+const RichTextEditor = dynamic(() => import('../../../components/ui/RichTextEditor'), { ssr: false });
 export default function NotecardView() {
     const [notecard, setNotecard] = useState(null);
     const [allCards, setAllCards] = useState([]);
