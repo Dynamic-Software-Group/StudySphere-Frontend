@@ -6,13 +6,17 @@ import InNoteNewNotePopup from "@/components/ui/InNoteNewNotePopup";
 import ShareNotecard from "@/components/ui/ShareNotecard";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { getNotecard, getNotes } from "@/lib/api";
+import {getNotecard, getNotes, summarize} from "@/lib/api";
 import { Note } from "@/lib/models/note";
+import {FaWandMagicSparkles} from "react-icons/fa6";
+import {Button} from "@/components/ui/button";
+import {toast} from "sonner";
 
 const RichTextEditor = dynamic(() => import('../../../components/ui/RichTextEditor'), { ssr: false });
 export default function NotecardView() {
     const [notecard, setNotecard] = useState(null);
     const [allCards, setAllCards] = useState([]);
+    const [aiLoading, setAiLoading] = useState(false);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -106,8 +110,27 @@ export default function NotecardView() {
             <div className="h-screen w-[63%] flex flex-col bg-[#50F]">
                 {notecard && (
                     <>
-                        <h1 className="text-md text-[#999999] font-normal ml-5 mt-24">{formatDate(notecard.created)}</h1>
-                        <h1 className="text-4xl text-white font-bold ml-5 mt-1 mb-2">{notecard.name}</h1>
+                        <div className="flex items-center">
+                            <div>
+                                <h1 className="text-md text-[#999999] font-normal ml-5 mt-24">{formatDate(notecard.created)}</h1>
+                                <h1 className="text-4xl text-white font-bold ml-5 mt-1 mb-2">{notecard.name}</h1>
+                            </div>
+                            <button disabled={aiLoading} className="ml-auto mt-20 mr-[5%]" onClick={async () => {
+                                setAiLoading(true);
+                                const decodedContent = await summarize(notecard.content);
+                                const content = await summarize(decodedContent);
+
+                                if (content === 'Quota') {
+                                    setAiLoading(false);
+                                    toast.error("AI Quota reached, please try again later");
+                                }
+
+                                setAiLoading(false);
+                                // TODO: ping moderations to check if content is appropriate and display content
+                            }}>
+                                <FaWandMagicSparkles color="white" width={50} height={50} />
+                            </button>
+                        </div>
                         <RichTextEditor content={notecard.content} />
                     </>
                 )}

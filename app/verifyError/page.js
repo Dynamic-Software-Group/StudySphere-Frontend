@@ -5,6 +5,7 @@ import Image from "next/image";
 import {useRouter, useSearchParams} from "next/navigation";
 import {useEffect, useState} from "react";
 import React, { Fragment } from 'react';
+import RequestNewEmailPopup from "@/components/ui/RequestNewEmailPopup";
 export default function VerifyError() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -45,11 +46,7 @@ export default function VerifyError() {
                 </h1>
 
                 <div className="w-full flex justify-center mt-[50%]">
-                    <Button className="mt-5 w-[75%] rounded-full h-10" onClick={() => {
-                        window.location.href = "/login";
-                    }}>
-                        Request New Link
-                    </Button>
+                    <RequestNewEmailPopup />
                 </div>
             </div>
         </main>
