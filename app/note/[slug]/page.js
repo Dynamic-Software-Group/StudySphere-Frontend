@@ -71,7 +71,13 @@ export default function NotecardView() {
                     <h1 className="font-medium">Back</h1>
                 </a>
 
-                {allCards.map((card) => (
+                {allCards.map((card) => {
+                    console.log(card.content)
+                    console.log(new TextDecoder().decode(card.content))
+                    const decodedContent = new TextDecoder().decode(new Uint8Array(Object.values(card.content)));
+                    console.log(decodedContent)
+                    const displayedContent = decodedContent.replace(/<[^>]*>?/gm, '').substring(0, 100);
+                    return (
                     <div
                         key={card.id}
                         className={`flex h-36 rounded-md flex-row justify-start w-[95%] mx-auto mt-5 p-4 transition-all ${
@@ -101,11 +107,11 @@ export default function NotecardView() {
                                     WebkitBoxOrient: "vertical",
                                 }}
                             >
-                                {card.content}
+                                {displayedContent}
                             </h1>
                         </div>
                     </div>
-                ))}
+                )})}
             </div>
             <div className="h-screen w-[63%] flex flex-col bg-[#50F]">
                 {notecard && (
@@ -118,6 +124,7 @@ export default function NotecardView() {
                             <button disabled={aiLoading} className="ml-auto mt-20 mr-[5%]" onClick={async () => {
                                 setAiLoading(true);
                                 const decoder = new TextDecoder();
+                                console.log(notecard.content)
                                 const decodedContent = decoder.decode(notecard.content);
                                 const content = await summarize(decodedContent, notecard.id);
 
@@ -140,7 +147,7 @@ export default function NotecardView() {
                                 }
 
                                 setAiLoading(false);
-                                // TODO: ping moderations to check if content is appropriate and display content
+                                toast.success("Content summarized successfully, open the summaries tab to view")
                             }}>
                                 <FaWandMagicSparkles color="white" width={50} height={50} />
                             </button>

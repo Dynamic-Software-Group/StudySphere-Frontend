@@ -2,19 +2,21 @@
 
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
-import {useRouter, useSearchParams} from "next/navigation";
-import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {Suspense, useEffect, useState} from "react";
 import React, { Fragment } from 'react';
 import RequestNewEmailPopup from "@/components/ui/RequestNewEmailPopup";
 export default function VerifyError() {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const [error, setError] = useState(null);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
+        const path = window.location.path;
         if (typeof window !== 'undefined') {
-            setError(searchParams.get("error"));
-            if (!searchParams.get("error")) {
+
+            setError(new URLSearchParams(window.location.search).get("error"));
+            if (!path.includes("?error")) {
                 router.push('/login');
             }
         }

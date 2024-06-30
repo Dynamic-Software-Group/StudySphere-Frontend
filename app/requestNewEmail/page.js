@@ -12,6 +12,7 @@ export default function RequestEmail() {
                 <h1 className="text-4xl font-semibold mt-5 text-[#2B2B2B] text-center">Email Verification</h1>
 
                 <h1 className="text-xl font-medium mt-5 text-[#5A5858] text-center">
+                    {/* eslint-disable-next-line react/no-unescaped-entities */}
                     To activate your account, please verify your email. If you<br />didn't receive an email, click below to request a new one.
                 </h1>
 
