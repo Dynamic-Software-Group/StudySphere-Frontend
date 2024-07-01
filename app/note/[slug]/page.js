@@ -9,11 +9,13 @@ import { useEffect, useState } from "react";
 import {getNotecard, getNotes, summarize} from "@/lib/api";
 import { Note } from "@/lib/models/note";
 import {FaWandMagicSparkles} from "react-icons/fa6";
-import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
+import {Button} from "@/components/ui/button";
+import SummaryComponent from "@/components/SummaryComponent";
 
 const RichTextEditor = dynamic(() => import('../../../components/ui/RichTextEditor'), { ssr: false });
 export default function NotecardView() {
+    const [summary, setSummary] = useState("");
     const [notecard, setNotecard] = useState(null);
     const [allCards, setAllCards] = useState([]);
     const [aiLoading, setAiLoading] = useState(false);
@@ -72,10 +74,7 @@ export default function NotecardView() {
                 </a>
 
                 {allCards.map((card) => {
-                    console.log(card.content)
-                    console.log(new TextDecoder().decode(card.content))
                     const decodedContent = new TextDecoder().decode(new Uint8Array(Object.values(card.content)));
-                    console.log(decodedContent)
                     const displayedContent = decodedContent.replace(/<[^>]*>?/gm, '').substring(0, 100);
                     return (
                     <div
@@ -123,20 +122,18 @@ export default function NotecardView() {
                             </div>
                             <button disabled={aiLoading} className="ml-auto mt-20 mr-[5%]" onClick={async () => {
                                 setAiLoading(true);
-                                const decoder = new TextDecoder();
-                                console.log(notecard.content)
-                                const decodedContent = decoder.decode(notecard.content);
-                                const content = await summarize(decodedContent, notecard.id);
+                                const decodedContent = document.getElementsByClassName("ql-editor")[0].innerHTML;
+                                console.log(decodedContent)
+                                const token = document.cookie
+                                    .split(";")
+                                    .find((cookie) => cookie.includes("token"))
+                                    .split("=")[1];
+                                const content = await summarize(token, decodedContent, notecard.id);
+                                console.log(content)
 
                                 if (content === 'Quota') {
                                     setAiLoading(false);
                                     toast.error("AI Quota reached, please try again later");
-                                    return;
-                                }
-
-                                if (content === 'Moderated') {
-                                    setAiLoading(false);
-                                    toast.error("Content is inappropriate");
                                     return;
                                 }
 
@@ -147,12 +144,16 @@ export default function NotecardView() {
                                 }
 
                                 setAiLoading(false);
-                                toast.success("Content summarized successfully, open the summaries tab to view")
+                                setSummary(content);
+                                toast.success("Content summarized successfully, click view response to see it");
+
+                                console.log(content.summary)
                             }}>
                                 <FaWandMagicSparkles color="white" width={50} height={50} />
                             </button>
                         </div>
                         <RichTextEditor content={notecard.content} />
+                        {summary !== "" && <SummaryComponent summary={summary} />}
                     </>
                 )}
             </div>

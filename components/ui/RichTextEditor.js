@@ -26,7 +26,6 @@ function RichTextEditor() {
         const ydoc = new Y.Doc();
         const provider = new WebsocketProvider('ws://localhost:5555', noteId, ydoc);
 
-
         const editor = new Quill(quillContainer.current, {
             theme: 'snow',
             modules: {
@@ -60,6 +59,7 @@ function RichTextEditor() {
             console.log(socket.readyState)
             if (socket.readyState === WebSocket.OPEN) {
                 const update = encoder.encode(ydoc.getText('quill').toJSON());
+                console.log(update)
                 console.log('Sending update:', JSON.stringify(
                     {
                         type: 'update',
