@@ -55,6 +55,8 @@ export default function Trash() {
 
         await unarchiveNotecard(tokenCookie, id)
 
+        window.location.reload();
+
         toast.success("Notecard unarchived successfully")
     }
 

@@ -69,6 +69,7 @@ export default function Home() {
             setLoginStatus("Error occurred while logging in");
         } finally {
             setIsLoading(false);
+            window.location.href = "/";
         }
     }
 

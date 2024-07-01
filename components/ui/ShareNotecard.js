@@ -90,15 +90,6 @@ export default function ShareNotecard({ notecardId }) {
                 <div>
                     <div className="flex flex-row items-center space-x-5">
                         <Input id="email" placeholder="Enter email..." type="email"/>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger>
-                                <Button variant="outline">{role}</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem onClick={() => setRole('Editor')}>Editor</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setRole('Viewer')}>Viewer</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
                         <Button disabled={loading} className="invite" type="submit" variant="ghost" onClick={() => inviteUser()}>
                             {loading ? "Inviting..." : "Invite"}
                         </Button>
@@ -109,56 +100,13 @@ export default function ShareNotecard({ notecardId }) {
                     {collaborators.map((collaborator) => (
                         <div key={collaborator.id} className="w-full flex flex-row items-center justify-between mt-2">
                             <div className="flex flex-row">
-                                <Image src={collaborator.base64Pfp || '/placeholder-avatar.svg'} alt="avatar" width={30} height={30} />
                                 <div className="flex flex-col ml-2">
                                     <h1 className="text-sm">{collaborator.name}</h1>
                                     <h1 className="text-xs text-[#595959]">{collaborator.email}</h1>
                                 </div>
                             </div>
-
-                            <DropdownMenu>
-                                <DropdownMenuTrigger>
-                                    <Button variant="ghost">{collaborator.role}</Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem onClick={() => updateRole(collaborator.id, 'Editor')}>Editor</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => updateRole(collaborator.id, 'Viewer')}>Viewer</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => removeCollaborator(collaborator.id)}>Remove</DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
                         </div>
                     ))}
-
-
-                    <h1 className="mt-5 text-[#181818] font-lg">General access</h1>
-
-                    <div className="w-full flex flex-row items-center justify-between mt-2">
-                        <div className="flex flex-row">
-                            <Image src={'/link.svg'} alt={"avatar"} width={30} height={30}/>
-                            <div className="flex flex-col ml-2">
-                                <h1 className="text-sm">Anyone with the link</h1>
-                                <h1 className="text-xs text-[#595959]">Anyone on the internet with the link can..</h1>
-                            </div>
-                        </div>
-
-                        <DropdownMenu>
-                            <DropdownMenuTrigger>
-                                <Button variant="ghost">View</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem>Edit</DropdownMenuItem>
-                                <DropdownMenuItem>View</DropdownMenuItem>
-                                <DropdownMenuItem>None</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                </div>
-
-                <div className="linkcontainer rounded w-full flex-row flex items-center px-4 py-2">
-                    <h1 className="text-sm text-[#59]">https://app.studysphere.com/notes/{window.location.href.split("/")[4].substring(0, 4)}...</h1>
-                    <Button variant="ghost" className="copy ml-auto text-[#1A56EB]" onClick={() => copyLink()}>
-                        <FaRegCopy className="mr-2" /> Copy
-                    </Button>
                 </div>
             </DialogContent>
         </Dialog>
