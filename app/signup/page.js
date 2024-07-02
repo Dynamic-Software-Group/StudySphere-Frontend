@@ -8,6 +8,8 @@ import {Button} from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import {IoIosEyeOff, IoMdEye} from "react-icons/io";
+import {login, sendVerificationEmail, signup} from "@/lib/api";
+import {toast} from "sonner";
 
 const formSchema = z.object({
     name: z.string(),
@@ -18,6 +20,7 @@ const formSchema = z.object({
 
 export default function Home() {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -29,8 +32,33 @@ export default function Home() {
         }
     })
 
-    function onSubmit(values) {
-        console.log(values)
+    async function onSubmit(values) {
+        if (values.password !== values.confirmPassword) {
+            toast.error("Passwords do not match")
+            return;
+        }
+
+        setLoading(true);
+        const signedUp = await signup(values.email, values.password, values.name);
+
+        if (signedUp === false) {
+            // 409; user already exists
+            toast.error("User already exists, please make sure your email and username are unique!")
+            setLoading(false)
+        } else {
+            await sendVerificationEmail(values.email);
+
+            toast.info("Verification email sent!", {
+                description: "Please check your email to verify your account.",
+                action: {
+                    label: "Request new email",
+                    onClick: () => {
+                        window.location.href = "/requestNewEmail";
+                    }
+                }
+            })
+            setLoading(false);
+        }
     }
 
     return (
@@ -125,7 +153,9 @@ export default function Home() {
                             )}
                         />
 
-                        <Button type="submit" className="mt-8 w-full rounded-full h-10">Create account</Button>
+                        <Button type="submit" className="mt-8 w-full rounded-full h-10" disabled={loading}>
+                            {loading ? "Loading..." : "Create Account"}
+                        </Button>
                     </form>
                 </Form>
 

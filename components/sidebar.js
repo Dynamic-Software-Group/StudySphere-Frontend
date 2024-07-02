@@ -5,12 +5,16 @@ import {HiOutlineDocumentChartBar} from "react-icons/hi2";
 import {HiOutlineBell, HiOutlineHeart, HiOutlineShare, HiOutlineTrash} from "react-icons/hi";
 import {VscSettingsGear} from "react-icons/vsc";
 import NewNotePopup from "@/components/ui/NewNotePopup";
+import {useEffect, useState} from "react";
 
 export default function Sidebar() {
+    const [path, setPath] = useState("");
+
+    useEffect(() => {
+        setPath(window.location.pathname);
+    }, []);
 
     function getBarColor(targetPath) {
-        const path = window.location.pathname;
-
         if (targetPath === "/") {
             return path === "/" ? "#5500FF" : "#ffffff";
         }
@@ -18,8 +22,6 @@ export default function Sidebar() {
     }
 
     function getTextWeight(targetPath) {
-        const path = window.location.pathname;
-
         if (targetPath === "/") {
             return path === "/" ? "font-semibold" : "font-medium";
         }
@@ -66,18 +68,6 @@ export default function Sidebar() {
                         <div className="flex flex-row items-center justify-left w-full pl-6">
                             <HiOutlineShare size={22}/>
                             <h1 className={`text-md ml-2 ${getTextWeight("/shared")}`}>Shared</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="/notifications" className="w-full">
-                <div className="w-full h-10 mt-5">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className={`h-full bg-[${getBarColor("/notifications")}] w-[5px] rounded-r`}/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <HiOutlineBell size={22}/>
-                            <h1 className={`text-md ml-2 ${getTextWeight("/notifications")}`}>Notifications</h1>
                         </div>
                     </div>
                 </div>

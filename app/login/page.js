@@ -1,35 +1,88 @@
 "use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
-import {z} from "zod";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {Button} from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
-import {useState} from "react";
-import {IoIosEyeOff, IoMdEye} from "react-icons/io";
-import {Checkbox} from "@/components/ui/checkbox";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { IoIosEyeOff, IoMdEye } from "react-icons/io";
+import { Checkbox } from "@/components/ui/checkbox";
+import { login } from "@/lib/api";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     email: z.string(),
     password: z.string(),
-})
+});
 
 export default function Home() {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loginStatus, setLoginStatus] = useState("");
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
-            password: ""
-        }
-    })
+            password: "",
+        },
+    });
 
-    function onSubmit(values) {
-        console.log(values)
-        console.log(rememberMe)
+    async function onSubmit(values) {
+        setIsLoading(true);
+        try {
+            const token = await login(values.email, values.password);
+
+            if (token == null) {
+                toast.error("Invalid credentials", {
+                    description: "Login failed",
+                    action: {
+                        label: "OK",
+                        onClick: () => {},
+                    },
+                });
+                setLoginStatus("Invalid credentials");
+            } else if (token === "Email not verified") {
+                toast.error("Email not verified", {
+                    description: "Please verify your email",
+                    action: {
+                        label: "Request new email",
+                        onClick: () => {
+                            window.location.href = "/requestNewEmail";
+                        },
+                    },
+                });
+                setLoginStatus("Email not verified");
+            }
+            else {
+                document.cookie = `token=${token}; path=/`;
+                toast.success(`${values.email} logged in successfully`, {
+                    description: "Logged in",
+                    action: {
+                        label: "OK",
+                        onClick: () => {},
+                    },
+                });
+                setLoginStatus("Logged in successfully");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error("Error occurred while logging in", {
+                description: "Please try again later",
+                action: {
+                    label: "OK",
+                    onClick: () => {},
+                },
+            });
+            setLoginStatus("Error occurred while logging in");
+        } finally {
+            setIsLoading(false);
+            window.location.href = "/";
+        }
     }
 
     return (
@@ -52,9 +105,7 @@ export default function Home() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="example@example.com" {...field} />
-                                    </FormControl>
+                                    <Input placeholder="example@example.com" {...field} />
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -66,19 +117,17 @@ export default function Home() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <Input placeholder="Enter your password" {...field} type={showPassword ? "text" : "password"} />
-                                            <button
-                                                type="button"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                className="absolute right-0 top-0  mt-2.5 mr-5"
-                                            >
-                                                {showPassword ? <IoIosEyeOff />
-                                                    : <IoMdEye /> }
-                                            </button>
-                                        </div>
-                                    </FormControl>
+                                    <div className="relative">
+                                        <Input placeholder="Enter your password" {...field} type={showPassword ? "text" : "password"} />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-0 top-0  mt-2.5 mr-5"
+                                        >
+                                            {showPassword ? <IoIosEyeOff />
+                                                : <IoMdEye /> }
+                                        </button>
+                                    </div>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -95,17 +144,18 @@ export default function Home() {
                                     Remember me for 30 days
                                 </label>
                             </div>
-                            <div className="ml-auto">
-                                <h1 className="text-xs text-[#A8A8A8]">Forgot password?</h1>
-                            </div>
                         </div>
 
-                        <Button type="submit" className="mt-5 w-full rounded-full h-10">Log in</Button>
+                        <Button type="submit" className="mt-5 w-full rounded-full h-10" disabled={isLoading}>
+                            {isLoading ? "Loading..." : "Log in"}
+                        </Button>
                     </form>
                 </Form>
 
-                <h1 className="text-sm mt-auto mb-10"><span className="text-[#625050]">Don&apos;t have an account?</span>
-                    <span className="text-[#2B2B2B] font-medium"> <a href="/signup">Sign Up</a></span></h1>
+                <h1 className="text-sm mt-auto mb-10">
+                    <span className="text-[#625050]">Don&apos;t have an account?</span>
+                    <span className="text-[#2B2B2B] font-medium"> <a href="/signup">Sign Up</a></span>
+                </h1>
             </div>
         </main>
     );
