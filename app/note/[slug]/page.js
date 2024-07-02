@@ -1,7 +1,6 @@
 "use client"
 
-import {FaArrowDown, FaArrowUp} from "react-icons/fa";
-import {IoShareSocial} from "react-icons/io5";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import InNoteNewNotePopup from "@/components/ui/InNoteNewNotePopup";
 import ShareNotecard from "@/components/ui/ShareNotecard";
 import dynamic from "next/dynamic";
@@ -14,11 +13,13 @@ import {Button} from "@/components/ui/button";
 import SummaryComponent from "@/components/SummaryComponent";
 
 const RichTextEditor = dynamic(() => import('../../../components/ui/RichTextEditor'), { ssr: false });
+
 export default function NotecardView() {
     const [summary, setSummary] = useState("");
     const [notecard, setNotecard] = useState(null);
     const [allCards, setAllCards] = useState([]);
     const [aiLoading, setAiLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -34,18 +35,22 @@ export default function NotecardView() {
                 .find((cookie) => cookie.includes("token"))
                 .split("=")[1];
 
-            await getNotecard(notecardId, tokenCookie).then((response) => {
-                console.log(response);
-                const notecardObj = Note.fromJson(response);
-                console.log(notecardObj);
-                setNotecard(notecardObj);
-            });
+            const notecardResponse = await getNotecard(notecardId, tokenCookie);
+            const notecardObj = Note.fromJson(notecardResponse);
+            setNotecard(notecardObj);
 
             const allCardsResponse = await getNotes(tokenCookie);
             setAllCards(allCardsResponse.notecards);
+
+            setLoading(false);
         }
+
         fetchData();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <main className="h-screen w-full flex flex-row">
@@ -53,18 +58,8 @@ export default function NotecardView() {
                 <InNoteNewNotePopup />
                 <h1>New Note</h1>
 
-                <div className="h-14 w-14 bg-[#F97068] rounded-full mt-10 flex items-center justify-center">
-                    <FaArrowUp color="white" size={30} />
-                </div>
-                <h1>Prev. Note</h1>
-
-                <div className="h-14 w-14 bg-[#DEB841] rounded-full mt-10 flex items-center justify-center">
-                    <FaArrowDown color="white" size={30} />
-                </div>
-                <h1>Next Note</h1>
-
                 <div className="h-14 w-14 bg-[#D1613C] rounded-full mt-10 flex items-center justify-center">
-                    {/*<ShareNotecard />*/}
+                    <ShareNotecard notecardId={notecard.id} />
                 </div>
                 <h1>Share Note</h1>
             </div>

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import {
-    Dialog,
+    Dialog, DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -10,39 +10,56 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Image from "next/image";
+import CategoriesComboBox from "@/components/ui/CategoriesComboBox";
+import {GoPlusCircle} from "react-icons/go";
+import CreateCategoryPopup from "@/components/ui/CreateCategoryPopup";
+import {createNotecard} from "@/lib/api";
 
 export default function InNoteNewNotePopup() {
+    async function handleCreateNote() {
+        const title = document.getElementById("username").value;
+        const category = document.cookie
+            .split(";")
+            .find((cookie) => cookie.includes("category"))
+            .split("=")[1];
+
+        const tokenCookie = document.cookie
+            .split(";")
+            .find((cookie) => cookie.includes("token"))
+            .split("=")[1];
+
+        await createNotecard(title, category, tokenCookie);
+
+        document.cookie = `category=none; path=/`;
+
+        window.location.reload();
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className="h-14 w-14 bg-[#333] rounded-full mt-36 flex items-center justify-center hover:cursor-pointer">
+                <div
+                    className="h-14 w-14 bg-[#333] rounded-full mt-36 flex items-center justify-center hover:cursor-pointer">
                     <Image src={'/plus.svg'} alt={"plus"} width={40} height={40}/>
                 </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
+                <DialogHeader>
+                    <DialogTitle>Create a note</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when you&apos;re done.
+                        This is the start of something great
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Name
-                        </Label>
-                        <Input id="name" value="Pedro Duarte" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username" className="text-right">
-                            Username
-                        </Label>
-                        <Input id="username" value="@peduarte" className="col-span-3" />
+                <div>
+                    <Input id="username" placeholder="Enter title..." type="text"/>
+                    <div className="flex flex-row w-full mt-2">
+                        <CategoriesComboBox />
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Save changes</Button>
+                    <DialogClose asChild>
+                        <Button className="invite w-full" type="submit" onClick={() => handleCreateNote()}>Create note</Button>
+                    </DialogClose>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

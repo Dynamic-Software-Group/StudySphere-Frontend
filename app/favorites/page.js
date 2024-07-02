@@ -6,10 +6,14 @@ import Sidebar from "@/components/sidebar";
 import Topbar from "@/components/topbar";
 import {useEffect, useState} from "react";
 import {Note} from "@/lib/models/note";
-import {getFavorites, getNotes} from "@/lib/api";
+import {getFavorites, getNotes, unfavoriteNotecard} from "@/lib/api";
+import {Badge} from "@/components/ui/badge";
+import DeleteConfirmPopup from "@/components/ui/DeleteConfirmPopup";
 
 export default function Favorites() {
     const [notecards, setNotecards] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredCategory, setFilteredCategory] = useState("");
 
     useEffect(() => {
         async function fetchData() {
@@ -30,6 +34,37 @@ export default function Favorites() {
         fetchData();
     }, []);
 
+    function handleNotecardClick(id) {
+        const clickedElement = window.event.target;
+        console.log(popupOpen)
+
+        console.log(window.event.target.classList)
+        if (window.event.target.tagName !== "svg" && window.event.target.tagName !== "path" && !popupOpen && !clickedElement.classList.value.includes(
+            'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:ring-offset-2 dark:border-neutral-800 dark:focus:ring-neutral-300 border-transparent bg-red-500 text-neutral-50 shadow hover:bg-red-500/80 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/80'
+        )) {
+            window.location.href = `/note/${id}`;
+        }
+    }
+
+    async function handleUnfavoriteNotecard(id) {
+        const tokenCookie = document.cookie
+            .split(";")
+            .find((cookie) => cookie.includes("token"))
+            .split("=")[1];
+
+        await unfavoriteNotecard(id, tokenCookie);
+        window.location.reload();
+    }
+
+    const filteredNotecards = notecards.filter((notecard) => {
+        const filteredByName = notecard.name.toLowerCase().includes(searchQuery.toLowerCase())
+        if (filteredCategory === "") return filteredByName;
+
+        const filteredByCategory = notecard.category.name.toLowerCase() === (filteredCategory.toLowerCase());
+
+        return filteredByName && filteredByCategory;
+    });
+
     return (
         <main className="w-full h-screen flex overflow-x-clip">
             {/* Sidebar */}
@@ -44,26 +79,35 @@ export default function Favorites() {
                     <h1 className="text-2xl font-semibold ml-8 mt-10">Favorites</h1>
 
                     {/* Notecards */}
-                    {notecards.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center w-full h-full">
-                            <h1 className="text-2xl font-semibold text-gray-600">You don&apos;t have any notecards favorited.</h1>
+                    {filteredNotecards.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center w-full h-full notecard-element">
+                            <h1 className="text-2xl font-semibold text-gray-600 notecard-element">You don&apos;t have any notecards favorited.</h1>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 gap-4 w-full ml-10 mt-5">
-                            {notecards.map((notecard) => (
+                        <div className="grid grid-cols-2 gap-4 w-full ml-10 mt-5 notecard-element">
+                            {filteredNotecards.map((notecard) => (
                                 <div
                                     key={notecard.id}
-                                    className="notecard flex flex-col items-start justify-around h-60 rounded-md p-4 w-10/12 hover:cursor-pointer"
-                                    onClick={() => window.location.href = `/note/${notecard.id}`}
+                                    className="notecard flex flex-col items-start justify-around h-60 rounded-md p-4 w-10/12 hover:cursor-pointer notecard-element"
+                                    onClick={() => handleNotecardClick(notecard.id)}
                                 >
-                                    <h1 className="text-xl font-medium text-[#232323]">
-                                        {notecard.name}
-                                    </h1>
-                                    <div className="flex flex-row items-center justify-start w-full space-x-4">
-                                        <h1 className="text-sm text-[#989898]">12th Sep 22</h1>
-                                        <h1 className="text-sm text-[#565656]">7 mins ago</h1>
+                                    <div className="flex flex-row items-center justify-start w-full space-x-4 notecard-element">
+                                        <h1 className="text-xl font-medium text-[#232323] notecard-element">
+                                            {notecard.name}
+                                        </h1>
+                                        <Badge className="notecard-element" variant="destructive" onClick={() => {
+                                            if (filteredCategory === "") {
+                                                setFilteredCategory(notecard.category.name)
+                                            } else {
+                                                setFilteredCategory("")
+                                            }
+                                        }}>{notecard.category.name}</Badge>
                                     </div>
-                                    <div className={`flex flex-row items-center ${notecard.content === "" ? "justify-center" : "justify-start"} w-full space-x-4 h-24`}>
+                                    <div className="flex flex-row items-center justify-start w-full space-x-4 notecard-element">
+                                        <h1 className="text-sm text-[#989898] notecard-element">12th Sep 22</h1>
+                                        <h1 className="text-sm text-[#565656] notecard-element">7 mins ago</h1>
+                                    </div>
+                                    <div className={`notecard-element flex flex-row items-center ${notecard.content === "" ? "justify-center" : "justify-start"} w-full space-x-4 h-24`}>
                                         <h1
                                             style={{
                                                 overflowWrap: "break-word",
@@ -78,14 +122,14 @@ export default function Favorites() {
                                         </h1>
                                     </div>
 
-                                    <div className="flex flex-row items-center justify-start w-full">
+                                    <div className="notecard-element flex flex-row items-center justify-start w-full">
                                         <div className="flex flex-row space-x-4">
-                                            <HiHeart color="red" />
+                                            <HiHeart color="red" onClick={() => handleUnfavoriteNotecard(notecard.id)} />
                                             <HiOutlineShare />
                                             <BiCategory />
                                         </div>
 
-                                        <HiOutlineTrash className="ml-auto" />
+                                        <DeleteConfirmPopup notecardId={notecard.id} notecardName={notecard.name} />
                                     </div>
                                 </div>
                             ))}

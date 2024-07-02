@@ -81,6 +81,7 @@ export default function Home() {
             setLoginStatus("Error occurred while logging in");
         } finally {
             setIsLoading(false);
+            window.location.href = "/";
         }
     }
 
@@ -142,9 +143,6 @@ export default function Home() {
                                 >
                                     Remember me for 30 days
                                 </label>
-                            </div>
-                            <div className="ml-auto">
-                                <h1 className="text-xs text-[#A8A8A8]">Forgot password?</h1>
                             </div>
                         </div>
 
