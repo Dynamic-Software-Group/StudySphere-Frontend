@@ -9,11 +9,9 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import CategoriesComboBox from "@/components/ui/CategoriesComboBox";
-import {GoPlusCircle} from "react-icons/go";
-import CreateCategoryPopup from "@/components/ui/CreateCategoryPopup";
 import {createNotecard} from "@/lib/api";
+import Image from "next/image";
 
 export default function InNoteNewNotePopup() {
     async function handleCreateNote() {

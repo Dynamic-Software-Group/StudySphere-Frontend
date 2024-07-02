@@ -87,7 +87,7 @@ export default function Trash() {
                     {/* Notecards */}
                     {filteredNotecards.length === 0 ? (
                         <div className="flex flex-col items-center justify-center w-full h-full">
-                            <h1 className="text-2xl font-semibold text-gray-600">You don't have any notecards in
+                            <h1 className="text-2xl font-semibold text-gray-600">You do not have any notecards in
                                 trash.</h1>
                         </div>
                     ) : (
