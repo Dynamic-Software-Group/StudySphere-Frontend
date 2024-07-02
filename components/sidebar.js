@@ -73,18 +73,6 @@ export default function Sidebar() {
                 </div>
             </a>
 
-            <a href="/notifications" className="w-full">
-                <div className="w-full h-10 mt-5">
-                    <div className="flex flex-row items-center justify-center w-full h-full">
-                        <div className={`h-full bg-[${getBarColor("/notifications")}] w-[5px] rounded-r`}/>
-                        <div className="flex flex-row items-center justify-left w-full pl-6">
-                            <HiOutlineBell size={22}/>
-                            <h1 className={`text-md ml-2 ${getTextWeight("/notifications")}`}>Notifications</h1>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
             <a href="/trash" className="w-full">
                 <div className="w-full h-10 mt-5">
                     <div className="flex flex-row items-center justify-center w-full h-full">

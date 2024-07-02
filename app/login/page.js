@@ -46,7 +46,19 @@ export default function Home() {
                     },
                 });
                 setLoginStatus("Invalid credentials");
-            } else {
+            } else if (token === "Email not verified") {
+                toast.error("Email not verified", {
+                    description: "Please verify your email",
+                    action: {
+                        label: "Request new email",
+                        onClick: () => {
+                            window.location.href = "/requestNewEmail";
+                        },
+                    },
+                });
+                setLoginStatus("Email not verified");
+            }
+            else {
                 document.cookie = `token=${token}; path=/`;
                 toast.success(`${values.email} logged in successfully`, {
                     description: "Logged in",
@@ -69,6 +81,7 @@ export default function Home() {
             setLoginStatus("Error occurred while logging in");
         } finally {
             setIsLoading(false);
+            window.location.href = "/";
         }
     }
 
@@ -130,9 +143,6 @@ export default function Home() {
                                 >
                                     Remember me for 30 days
                                 </label>
-                            </div>
-                            <div className="ml-auto">
-                                <h1 className="text-xs text-[#A8A8A8]">Forgot password?</h1>
                             </div>
                         </div>
 
