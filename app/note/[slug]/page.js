@@ -5,14 +5,20 @@ import InNoteNewNotePopup from "@/components/ui/InNoteNewNotePopup";
 import ShareNotecard from "@/components/ui/ShareNotecard";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { getNotecard, getNotes } from "@/lib/api";
+import {getNotecard, getNotes, summarize} from "@/lib/api";
 import { Note } from "@/lib/models/note";
+import {FaWandMagicSparkles} from "react-icons/fa6";
+import {toast} from "sonner";
+import {Button} from "@/components/ui/button";
+import SummaryComponent from "@/components/SummaryComponent";
 
 const RichTextEditor = dynamic(() => import('../../../components/ui/RichTextEditor'), { ssr: false });
 
 export default function NotecardView() {
+    const [summary, setSummary] = useState("");
     const [notecard, setNotecard] = useState(null);
     const [allCards, setAllCards] = useState([]);
+    const [aiLoading, setAiLoading] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const formatDate = (dateString) => {
@@ -62,7 +68,10 @@ export default function NotecardView() {
                     <h1 className="font-medium">Back</h1>
                 </a>
 
-                {allCards.map((card) => (
+                {allCards.map((card) => {
+                    const decodedContent = new TextDecoder().decode(new Uint8Array(Object.values(card.content)));
+                    const displayedContent = decodedContent.replace(/<[^>]*>?/gm, '').substring(0, 100);
+                    return (
                     <div
                         key={card.id}
                         className={`flex h-36 rounded-md flex-row justify-start w-[95%] mx-auto mt-5 p-4 transition-all ${
@@ -92,18 +101,54 @@ export default function NotecardView() {
                                     WebkitBoxOrient: "vertical",
                                 }}
                             >
-                                {card.content}
+                                {displayedContent}
                             </h1>
                         </div>
                     </div>
-                ))}
+                )})}
             </div>
             <div className="h-screen w-[63%] flex flex-col bg-[#50F]">
                 {notecard && (
                     <>
-                        <h1 className="text-md text-[#999999] font-normal ml-5 mt-24">{formatDate(notecard.created)}</h1>
-                        <h1 className="text-4xl text-white font-bold ml-5 mt-1 mb-2">{notecard.name}</h1>
+                        <div className="flex items-center">
+                            <div>
+                                <h1 className="text-md text-[#999999] font-normal ml-5 mt-24">{formatDate(notecard.created)}</h1>
+                                <h1 className="text-4xl text-white font-bold ml-5 mt-1 mb-2">{notecard.name}</h1>
+                            </div>
+                            <button disabled={aiLoading} className="ml-auto mt-20 mr-[5%]" onClick={async () => {
+                                setAiLoading(true);
+                                const decodedContent = document.getElementsByClassName("ql-editor")[0].innerHTML;
+                                console.log(decodedContent)
+                                const token = document.cookie
+                                    .split(";")
+                                    .find((cookie) => cookie.includes("token"))
+                                    .split("=")[1];
+                                const content = await summarize(token, decodedContent, notecard.id);
+                                console.log(content)
+
+                                if (content === 'Quota') {
+                                    setAiLoading(false);
+                                    toast.error("AI Quota reached, please try again later");
+                                    return;
+                                }
+
+                                if (content === null) {
+                                    setAiLoading(false);
+                                    toast.error("Error occurred while summarizing content");
+                                    return;
+                                }
+
+                                setAiLoading(false);
+                                setSummary(content);
+                                toast.success("Content summarized successfully, click view response to see it");
+
+                                console.log(content.summary)
+                            }}>
+                                <FaWandMagicSparkles color="white" width={50} height={50} />
+                            </button>
+                        </div>
                         <RichTextEditor content={notecard.content} />
+                        {summary !== "" && <SummaryComponent summary={summary} />}
                     </>
                 )}
             </div>

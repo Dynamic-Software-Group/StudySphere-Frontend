@@ -46,7 +46,19 @@ export default function Home() {
                     },
                 });
                 setLoginStatus("Invalid credentials");
-            } else {
+            } else if (token === "Email not verified") {
+                toast.error("Email not verified", {
+                    description: "Please verify your email",
+                    action: {
+                        label: "Request new email",
+                        onClick: () => {
+                            window.location.href = "/requestNewEmail";
+                        },
+                    },
+                });
+                setLoginStatus("Email not verified");
+            }
+            else {
                 document.cookie = `token=${token}; path=/`;
                 toast.success(`${values.email} logged in successfully`, {
                     description: "Logged in",
